@@ -74,7 +74,14 @@ Set the sender email/name (e.g. "Hakim IQ Labs") to the verified address.
 
 Google accounts arrive already verified, so they can use the analysis immediately.
 
-### 2.7 Test it
+### 2.7 Gmail-only sign-ups without a verification email (current live setup)
+Until a custom SMTP sender is connected, Supabase's built-in sender only allows ~2 emails per hour, which blocks verification. The live site therefore runs with **Confirm email OFF** and only accepts correctly formed Gmail addresses:
+- the sign-up form rejects anything that isn't `name@gmail.com` (6–30 letters/numbers, single dots, no `+` aliases), and
+- [`supabase/gmail-only.sql`](supabase/gmail-only.sql) adds a database trigger that enforces the same rule server-side.
+
+This checks the address format, not ownership. To go back to verified emails: connect SMTP (2.5), switch **Confirm email** back on, and optionally keep or drop the trigger (`drop trigger enforce_gmail_signup on auth.users;`).
+
+### 2.8 Test it
 Run locally, open **Sign in → Create a free account**, sign up, click the link in the email, and you'll land on `auth.html?verified=1` signed in. Run an analysis, then check the Dashboard.
 
 ---

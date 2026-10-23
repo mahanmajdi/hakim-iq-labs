@@ -41,7 +41,29 @@ const FRIENDLY = [
   [/over_email_send_rate_limit|email rate limit/i, 'We’ve hit our hourly limit for sending verification emails. Please try again in about an hour — your details weren’t saved, so nothing is lost.'],
   [/over_request_rate_limit|rate limit|too many/i, 'Too many attempts from this connection. Please wait a few minutes and try again.'],
   [/not authorized|error sending|sending (confirmation|recovery|magic link) email/i, 'We couldn’t send a verification email to this address right now. Please try again later.'],
+  // Raised by the Gmail-only trigger in supabase/gmail-only.sql.
+  [/database error saving new user|only real gmail/i, 'Only real Gmail addresses can create an account (like yourname@gmail.com).'],
 ];
+
+/**
+ * Sign-ups are limited to real Gmail addresses. Mirrors public.is_valid_gmail()
+ * in supabase/gmail-only.sql, which enforces the same rule on the server.
+ * This checks the address is a correctly formed Gmail address; it cannot prove
+ * the person owns the inbox.
+ */
+const GMAIL_RE = /^[a-z0-9](\.?[a-z0-9]){5,29}@(gmail|googlemail)\.com$/;
+
+function gmailProblem(raw) {
+  const email = raw.trim().toLowerCase();
+  if (!email) return 'Please enter your Gmail address.';
+  const [local = '', domain = ''] = email.split('@');
+  if (!/^(gmail|googlemail)\.com$/.test(domain))
+    return 'This won’t work — only real Gmail addresses can create an account (like yourname@gmail.com). Other email providers aren’t accepted.';
+  if (local.includes('+')) return 'Please use your main Gmail address, without a “+” alias.';
+  if (!GMAIL_RE.test(email))
+    return 'That isn’t a real Gmail address. Gmail usernames are 6–30 letters or numbers, with single dots allowed between them.';
+  return null;
+}
 const friendly = (err) => {
   const text = `${err?.code || ''} ${err?.message || ''}`;
   return FRIENDLY.find(([re]) => re.test(text))?.[1] || err?.message || 'Something went wrong.';
@@ -158,7 +180,11 @@ const views = {
       ${header('Create your free account', 'Save your scores, track progress and follow your glow-up plan.')}
       ${googleBtn('Sign up with Google')}
       <form novalidate>
-        <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="email" required></div>
+        <div class="field">
+          <label for="email">Gmail address</label>
+          <input class="input" id="email" type="email" autocomplete="email" inputmode="email" placeholder="yourname@gmail.com" required aria-describedby="email-hint">
+          <p class="pw-hint" id="email-hint">Use your real Gmail address — other email providers can’t be used to sign up.</p>
+        </div>
         ${passwordField('password', 'Password', 'new-password')}
         <div class="pw-meter" data-score="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <p class="pw-hint">At least 8 characters. A mix of cases, numbers and symbols makes it stronger.</p>
@@ -170,12 +196,33 @@ const views = {
     bindCommon();
     const pw = card.querySelector('#password');
     pw.addEventListener('input', () => (card.querySelector('.pw-meter').dataset.score = String(passwordScore(pw.value))));
+    // Tell people straight away (on leaving the field) if the address can't be used.
+    const emailInput = card.querySelector('#email');
+    const hint = card.querySelector('#email-hint');
+    const defaultHint = hint.textContent;
+    emailInput.addEventListener('blur', () => {
+      if (!emailInput.value.trim()) return;
+      const problem = gmailProblem(emailInput.value);
+      emailInput.setAttribute('aria-invalid', String(Boolean(problem)));
+      hint.textContent = problem || 'Looks good.';
+      hint.classList.toggle('is-error', Boolean(problem));
+    });
+    emailInput.addEventListener('input', () => {
+      emailInput.removeAttribute('aria-invalid');
+      hint.textContent = defaultHint;
+      hint.classList.remove('is-error');
+    });
     card.querySelector('form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = e.submitter;
-      const email = card.querySelector('#email').value.trim();
+      const email = emailInput.value.trim().toLowerCase();
       const password = pw.value;
-      if (!/^\S+@\S+\.\S+$/.test(email)) return showError('Please enter a valid email address.');
+      const problem = gmailProblem(email);
+      if (problem) {
+        emailInput.setAttribute('aria-invalid', 'true');
+        emailInput.focus();
+        return showError(problem);
+      }
       if (password.length < 8) return showError('Please use at least 8 characters for your password.');
       if (!card.querySelector('#consent').checked) return showError('Please confirm you’re 13+ and agree to the privacy policy.');
       setLoading(btn, true);

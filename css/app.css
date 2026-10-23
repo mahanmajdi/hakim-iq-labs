@@ -485,6 +485,7 @@
 .pw-meter[data-score="3"] i:nth-child(-n + 3) { background: var(--c1); }
 .pw-meter[data-score="4"] i { background: var(--good); }
 .pw-hint { font-size: 12px; color: var(--text-3); }
+.pw-hint.is-error { color: #fca5a5; }
 .btn--google { background: #fff; color: #1f1f1f; }
 .btn--google:hover { box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.4); }
 .btn--google .icon { width: 20px; height: 20px; }
