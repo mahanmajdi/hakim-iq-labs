@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Celebrity DB builder — Hakim IQ Labs (maintainer tool)</title>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    body { padding: 40px 16px; }
+    .wrap { max-width: 1100px; margin: 0 auto; display: grid; gap: 20px; }
+    textarea { width: 100%; min-height: 220px; padding: 14px; border-radius: 14px; background: #0d0e14; border: 1px solid var(--line-2); color: var(--text); font: 13px/1.5 var(--font-mono); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    td, th { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+    .ok { color: var(--good); } .skip { color: var(--low); }
+  </style>
+  <script type="module" src="build-celebrity-db.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="display d-s">Celebrity proportion database builder</h1>
+    <p class="muted">
+      Maintainer tool. For each name it fetches the Wikipedia lead image (via the public API, CORS-enabled),
+      runs the same on-device MediaPipe engine as the site, and keeps <strong>only the proportion numbers</strong>.
+      No images are stored. Photos that are turned, tilted or have an open mouth/big smile are skipped.
+      Format: one <code>Name|f</code> or <code>Name|m</code> per line (Wikipedia article title).
+    </p>
+    <textarea id="names" spellcheck="false"></textarea>
+    <div class="row">
+      <button class="btn btn--primary" id="run">Build database</button>
+      <button class="btn btn--glass" id="download" disabled>Download celebrities.json</button>
+      <span class="muted small" id="status"></span>
+    </div>
+    <table><thead><tr><th>Name</th><th>Status</th><th>Yaw</th><th>Pitch</th><th>Smile</th><th>Shape</th></tr></thead><tbody id="log"></tbody></table>
+    <textarea id="out" spellcheck="false" placeholder="JSON output appears here"></textarea>
+  </div>
+</body>
+</html>

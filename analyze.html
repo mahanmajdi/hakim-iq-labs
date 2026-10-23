@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Analyze — Hakim IQ Labs</title>
+  <meta name="description" content="Analyse your facial proportions privately in your browser.">
+  <meta name="theme-color" content="#050507">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://storage.googleapis.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module" src="js/pages/analyze.js"></script>
+</head>
+<body class="page-app" data-app>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header id="site-nav"></header>
+
+  <main id="main" class="app">
+    <div class="app-loading" id="app-loading" aria-live="polite"><span class="spinner"></span></div>
+
+    <!-- ===================== VERIFY EMAIL GATE ===================== -->
+    <section class="app-view container container--narrow" id="view-verify" hidden>
+      <div class="glass card-pad center verify">
+        <div class="verify__icon" aria-hidden="true">✉</div>
+        <h1 class="display d-s">Verify your email to continue</h1>
+        <p class="lead">We sent a link to <strong data-email></strong>. Click it to activate your account, then come back here.</p>
+        <div class="row" style="justify-content:center;margin-top:24px">
+          <button class="btn btn--primary" id="verify-refresh">I've verified — continue</button>
+          <button class="btn btn--glass" id="verify-resend">Resend email</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= CAPTURE ========================= -->
+    <section class="app-view" id="view-capture" hidden>
+      <div class="container container--wide">
+        <header class="app-head">
+          <p class="eyebrow">Step 1 · Capture</p>
+          <h1 class="display d-m">Let's map your proportions.</h1>
+          <p class="lead">Upload a photo or use your webcam. It's analysed right here on your device — never uploaded.</p>
+        </header>
+
+        <div class="capture">
+          <div class="capture__stage glass">
+            <div class="segmented capture__tabs" role="tablist" aria-label="Photo source">
+              <span class="segmented__thumb" aria-hidden="true"></span>
+              <button role="tab" aria-selected="true" data-panel="upload">Upload photo</button>
+              <button role="tab" aria-selected="false" data-panel="webcam">Use webcam</button>
+            </div>
+
+            <div class="capture__panel" data-panel="upload">
+              <label class="dropzone" id="dropzone" for="file-input">
+                <span class="dropzone__icon" aria-hidden="true"></span>
+                <strong>Drop a photo here, or <u>browse</u></strong>
+                <span class="faint small">JPG, PNG or WebP · face the camera · neutral expression</span>
+                <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" class="visually-hidden">
+              </label>
+            </div>
+
+            <div class="capture__panel" data-panel="webcam" hidden>
+              <div class="cam" id="cam">
+                <video id="cam-video" playsinline muted aria-label="Webcam preview"></video>
+                <svg class="cam__guide" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                  <defs><mask id="camMask"><rect width="300" height="400" fill="#fff"/><ellipse cx="150" cy="190" rx="92" ry="124" fill="#000"/></mask></defs>
+                  <rect width="300" height="400" fill="rgba(5,5,8,.55)" mask="url(#camMask)"/>
+                  <ellipse class="cam__oval" cx="150" cy="190" rx="92" ry="124"/>
+                  <path class="cam__axis" d="M150 70v240M70 175h160"/>
+                </svg>
+                <div class="cam__chips" id="cam-chips" aria-live="polite"></div>
+                <div class="cam__count" id="cam-count" aria-live="assertive"></div>
+                <div class="cam__start" id="cam-start">
+                  <p>Your camera feed stays on this device.</p>
+                  <button class="btn btn--primary" id="cam-enable">Enable camera</button>
+                </div>
+              </div>
+              <div class="cam__controls">
+                <label class="switch"><input type="checkbox" id="cam-timer" checked> 3-second timer</label>
+                <button class="btn btn--primary btn--lg" id="cam-capture" disabled>Capture</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="capture__tips">
+            <h2 class="h3">For the most accurate result</h2>
+            <ul class="tips" id="tips"></ul>
+            <p class="privacy-note" id="privacy-note"></p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= SCANNING ========================= -->
+    <section class="app-view scan" id="view-scan" hidden>
+      <div class="container scan__grid">
+        <div class="scan__frame glass">
+          <canvas id="scan-canvas" aria-label="Your photo being analysed"></canvas>
+          <div class="scan__laser" aria-hidden="true"></div>
+          <div class="scan__grid-overlay" aria-hidden="true"></div>
+        </div>
+        <div>
+          <p class="eyebrow">Step 2 · Measure</p>
+          <h1 class="display d-s">Analysing on your device…</h1>
+          <ol class="scan__steps" id="scan-steps" aria-live="polite">
+            <li data-step="model">Loading the on-device model</li>
+            <li data-step="detect">Mapping 478 landmarks</li>
+            <li data-step="pose">Correcting head pose</li>
+            <li data-step="measure">Measuring nine proportions</li>
+            <li data-step="compare">Comparing with ideal ranges</li>
+          </ol>
+          <p class="faint small scan__note">First run downloads the face model (~4 MB) once. Your photo is not sent anywhere.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================= ERROR ========================= -->
+    <section class="app-view container container--narrow" id="view-error" hidden>
+      <div class="glass card-pad center">
+        <h1 class="display d-s" id="error-title">We couldn't find a face</h1>
+        <p class="lead" id="error-msg">Try a brighter, straight-on photo where your whole face is visible.</p>
+        <button class="btn btn--primary" style="margin-top:24px" id="error-retry">Try another photo</button>
+      </div>
+    </section>
+
+    <!-- ========================= RESULTS ========================= -->
+    <section class="app-view results" id="view-results" hidden>
+      <div class="container container--wide">
+        <header class="results__head">
+          <div>
+            <p class="eyebrow">Step 3 · Your results</p>
+            <h1 class="display d-m">Your proportions, <span class="grad-text">decoded.</span></h1>
+          </div>
+          <div class="row">
+            <button class="btn btn--glass" id="btn-share">Share card</button>
+            <button class="btn btn--ghost" id="btn-again">Analyze another photo</button>
+          </div>
+        </header>
+
+        <div class="results__layout">
+          <div class="results__aside">
+            <div class="results__photo glass">
+              <canvas id="overlay-canvas" aria-label="Your photo with measured landmarks"></canvas>
+              <div class="layer-toggles" role="group" aria-label="Overlay layers">
+                <button class="chip" aria-pressed="true" data-layer="photo">Photo</button>
+                <button class="chip" aria-pressed="true" data-layer="mesh">Mesh</button>
+                <button class="chip" aria-pressed="true" data-layer="points">Points</button>
+                <button class="chip" aria-pressed="true" data-layer="guides">Lines</button>
+              </div>
+              <p class="results__hint" id="overlay-hint">Hover or tap a measurement to see exactly what was measured.</p>
+            </div>
+          </div>
+
+          <div class="results__main">
+            <div class="overall glass card-pad" id="overall"></div>
+            <p class="note-card">
+              <strong>About these scores.</strong> They compare your facial proportions with commonly cited ideal ranges. Lighting, camera distance, lens and expression all affect the numbers. Beauty isn't one number — and proportions don't measure charm, kindness or worth.
+            </p>
+
+            <section class="results__section" aria-labelledby="h-strengths">
+              <h2 class="h3 section-title" id="h-strengths"><span class="dot dot--good"></span>Your strengths</h2>
+              <div class="feature-list" id="strengths"></div>
+            </section>
+
+            <section class="results__section" aria-labelledby="h-improve">
+              <h2 class="h3 section-title" id="h-improve"><span class="dot dot--fair"></span>Areas to improve</h2>
+              <div class="feature-list" id="improve"></div>
+            </section>
+
+            <section class="results__section" aria-labelledby="h-all">
+              <h2 class="h3 section-title" id="h-all">Every measurement</h2>
+              <div class="table-wrap">
+                <table class="data-table" id="all-table">
+                  <thead><tr><th scope="col">Measurement</th><th scope="col">Your value</th><th scope="col">Ideal range</th><th scope="col" class="num">Score</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="results__section" aria-labelledby="h-quality">
+              <h2 class="h3 section-title" id="h-quality">Photo quality</h2>
+              <div class="quality glass card-pad" id="quality"></div>
+            </section>
+
+            <section class="results__section" aria-labelledby="h-look">
+              <div class="section-row">
+                <h2 class="h3 section-title" id="h-look">Celebrity look-alikes <span class="chip chip--accent">For fun</span></h2>
+                <div class="row" role="group" aria-label="Filter look-alikes">
+                  <button class="chip" aria-pressed="true" data-g="all">All</button>
+                  <button class="chip" aria-pressed="false" data-g="f">Women</button>
+                  <button class="chip" aria-pressed="false" data-g="m">Men</button>
+                </div>
+              </div>
+              <div class="looks" id="lookalikes"></div>
+              <p class="faint small">Just for fun. Matches compare face-shape <em>proportions</em> measured from one public photo per person — not identity, not appearance, and not an endorsement.</p>
+            </section>
+
+            <section class="plan-cta glass card-pad" aria-labelledby="h-plan">
+              <p class="eyebrow">Next step</p>
+              <h2 class="display d-s" id="h-plan">Build your glow-up plan</h2>
+              <p class="muted">Pick a timeline. We'll focus on your weakest areas with safe, realistic habits — no surgery, crash diets or pseudoscience.</p>
+              <div class="timeline-pick" id="timeline-pick">
+                <button class="tl-option" data-tl="weeks"><b>3–4 weeks</b><span>Fast reset: skin, sleep, grooming, haircut.</span></button>
+                <button class="tl-option" data-tl="months"><b>6 months</b><span>Habits, body composition, personal style.</span></button>
+                <button class="tl-option" data-tl="years"><b>1–2 years</b><span>Compounding skin health and a signature look.</span></button>
+              </div>
+              <label class="switch"><input type="checkbox" id="pref-facial-hair"> Include facial-hair (beard &amp; stubble) tips</label>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

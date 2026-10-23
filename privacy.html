@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Privacy — Hakim IQ Labs</title>
+  <meta name="description" content="How Hakim IQ Labs handles your data: photos never leave your device; only scores are saved; delete anytime.">
+  <meta name="theme-color" content="#050507">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script type="module">
+    import { renderShell } from './js/ui/shell.js';
+    import { initMotion } from './js/ui/motion.js';
+    renderShell({ solid: true, page: 'privacy.html' });
+    initMotion({ smooth: true });
+  </script>
+</head>
+<body class="page-app">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header id="site-nav"></header>
+
+  <main id="main" class="app">
+    <div class="container container--wide">
+      <header class="app-head" data-reveal>
+        <p class="eyebrow">Privacy</p>
+        <h1 class="display d-l">Private by design.<br><span class="grad-text">Not by promise.</span></h1>
+        <p class="lead">Hakim IQ Labs is built so that your face never has to leave your device. Here is exactly what happens to your data — in plain language.</p>
+        <p class="faint small" style="margin-top:12px">Last updated: October 23, 2026</p>
+      </header>
+
+      <div class="privacy-summary" data-reveal-stagger>
+        <div class="glass card-pad" data-reveal>
+          <span class="chip chip--good">Never collected</span>
+          <h3 class="h3">Your face</h3>
+          <ul><li>Photos and webcam video</li><li>Face landmark coordinates</li><li>Face “templates” or biometric identifiers</li></ul>
+        </div>
+        <div class="glass card-pad" data-reveal>
+          <span class="chip chip--accent">Stored in your account</span>
+          <h3 class="h3">Numbers only</h3>
+          <ul><li>Email address (for sign-in)</li><li>Scores, measured ratios, face shape, photo-quality score</li><li>Glow-up plan and which steps you ticked</li></ul>
+        </div>
+        <div class="glass card-pad" data-reveal>
+          <span class="chip">Your controls</span>
+          <h3 class="h3">Always yours</h3>
+          <ul><li>Export everything as JSON</li><li>Delete single analyses or all history</li><li>Delete your account instantly</li></ul>
+        </div>
+      </div>
+
+      <article class="prose">
+        <h2 id="on-device">1. Your photo stays on your device</h2>
+        <p>When you upload a photo or use your webcam, the image is processed <strong>entirely inside your browser</strong> by Google’s open-source MediaPipe Face Landmarker, running as WebAssembly/WebGL on your own device. The image is never uploaded to us or anyone else. It lives only in the page’s memory and is gone when you leave or reload the page.</p>
+        <p>The face model file (~4 MB) is downloaded once from Google’s public model storage and cached by your browser — that is a download <em>to</em> you, not an upload. Webcam frames are only analysed live on screen; nothing is recorded.</p>
+        <p>The optional share card is also drawn on your device. Your photo is only added to it if you switch that on, and the image is only saved where you choose to download or share it.</p>
+
+        <h2 id="stored">2. What we store</h2>
+        <p>If you create an account, we store:</p>
+        <ul>
+          <li><strong>Account data:</strong> your email address, a securely hashed password (or your Google account ID if you use Google sign-in), your age group (13–17 or 18+, not your birthday) and sign-in timestamps.</li>
+          <li><strong>Analysis results:</strong> the overall score, per-feature scores, the measured ratios and angles (for example “eye spacing 1.02”), your face-shape label and a photo-quality score, with the date.</li>
+          <li><strong>Plan progress:</strong> your chosen glow-up plan and the steps you’ve ticked.</li>
+        </ul>
+        <p>These numbers can’t be turned back into a picture of your face. We do <strong>not</strong> store face landmark coordinates, embeddings or anything that could be used to recognise you.</p>
+
+        <h2 id="where">3. Where it’s stored and who helps us</h2>
+        <ul>
+          <li><strong>Supabase</strong> provides authentication (including verification emails) and the database. Each row is protected by row-level security, so only you can read or change your own data.</li>
+          <li><strong>Google</strong> — only if you choose “Continue with Google”, Google confirms your identity and shares your name and email with us. Google also serves the face model file and the web fonts.</li>
+          <li><strong>jsDelivr</strong> (a public CDN) delivers the open-source code libraries the site uses, and <strong>GitHub Pages</strong> hosts the site itself. Like any website request, these providers see your IP address and browser details when files are downloaded.</li>
+        </ul>
+        <p>We have no advertising, no analytics trackers and no data sales — ever.</p>
+
+        <h2 id="cookies">4. Cookies and local storage</h2>
+        <p>We don’t use tracking cookies. Your browser’s local storage keeps your sign-in session, your age-gate answer (age group only), a few preferences (such as “include facial-hair tips”), and — in demo mode only — your history.</p>
+
+        <h2 id="age">5. Age requirement (13+)</h2>
+        <p>Hakim IQ Labs is for people aged <strong>13 and over</strong>. We ask for your birth month and year once, keep only your age group, and don’t let under-13s use the analysis. Users aged 13–17 receive glow-up plans with no calorie or dieting advice. If you believe a child under 13 has created an account, contact us and we will delete it.</p>
+
+        <h2 id="delete">6. Export and delete your data</h2>
+        <p>From your <a class="link" href="dashboard.html#account">Dashboard → Account &amp; privacy</a> you can:</p>
+        <ul>
+          <li><strong>Export</strong> all your saved data as a JSON file.</li>
+          <li><strong>Delete</strong> a single analysis, or all of your history while keeping your account.</li>
+          <li><strong>Delete your account</strong>, which permanently and immediately removes your account and every score and plan linked to it.</li>
+        </ul>
+
+        <h2 id="scores">7. What the scores are — and aren’t</h2>
+        <p>Scores compare your facial <em>proportions</em> with commonly cited ideal ranges from aesthetics and anthropometry research. They depend on photo quality and can’t measure skin, expression, style, personality or worth. The celebrity look-alike compares ratios only, is for fun, and implies no connection to or endorsement by anyone named. Nothing on this site is medical advice.</p>
+
+        <h2 id="security">8. Security</h2>
+        <p>All traffic uses HTTPS. Passwords are hashed by Supabase Auth and never visible to us. Email verification is required before an account can use the analysis or save data.</p>
+
+        <h2 id="contact">9. Contact &amp; changes</h2>
+        <p>Questions or requests? <!-- TODO (site owner): replace with your contact address --><a class="link" href="mailto:privacy@example.com">privacy@example.com</a>. If this page changes in a meaningful way, we’ll update the date at the top.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

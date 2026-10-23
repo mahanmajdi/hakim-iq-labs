@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hakim IQ Labs — Private AI face analysis</title>
+  <meta name="description" content="Free, privacy-first AI face analysis. 478 landmarks measured in your browser, transparent scores against ideal ranges, and a realistic glow-up plan.">
+  <meta name="theme-color" content="#050507">
+  <meta property="og:title" content="Hakim IQ Labs — Your face, measured.">
+  <meta property="og:description" content="Free, on-device facial proportion analysis with a realistic glow-up plan. Your photo never leaves your device.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <script type="module" src="js/pages/landing.js"></script>
+</head>
+<body class="page-landing">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header id="site-nav"></header>
+
+  <main id="main">
+    <!-- ============================== HERO ============================== -->
+    <section class="hero" id="top">
+      <canvas class="hero__canvas" id="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero__aura" aria-hidden="true"></div>
+
+      <div class="hero__content container container--wide">
+        <p class="eyebrow hero__eyebrow"><span class="dot-live"></span>On-device AI · Free forever</p>
+        <h1 class="display d-xl hero__title">Your face,<br><span class="grad-text">measured.</span></h1>
+        <p class="lead hero__lead">478 landmarks, nine proportions and one honest read on your facial geometry — computed entirely in your browser, then turned into a glow-up plan you can actually follow.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--primary btn--lg" href="analyze.html" data-magnetic>Analyze my face
+            <svg class="icon icon--arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--glass btn--lg" href="#how" data-magnetic>How it works</a>
+        </div>
+        <ul class="hero__trust">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>Photos never leave your device</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>No ads, no paywall</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/></svg>Delete everything, anytime</li>
+        </ul>
+      </div>
+
+      <div class="hero__hud" aria-hidden="true">
+        <div class="hud hud--a"><span>Symmetry</span><b class="mono">96.4%</b></div>
+        <div class="hud hud--b"><span>Canthal tilt</span><b class="mono">+5.8°</b></div>
+        <div class="hud hud--c"><span>FWHR</span><b class="mono">1.91</b></div>
+        <div class="hud hud--d"><span>Landmarks</span><b class="mono">478</b></div>
+      </div>
+
+      <a class="hero__scroll" href="#statement" aria-label="Scroll down"><span>Scroll</span><i></i></a>
+    </section>
+
+    <!-- ============================ STATEMENT =========================== -->
+    <section class="statement section" id="statement">
+      <div class="container container--narrow">
+        <p class="statement__text display d-m" data-split>Beauty isn't one number. But proportion is a language — and once you can read it, you can work with it.</p>
+      </div>
+    </section>
+
+    <!-- =========================== HOW IT WORKS ========================= -->
+    <section class="how" id="how" aria-labelledby="how-title">
+      <div class="how__pin">
+        <div class="container container--wide how__grid">
+          <div class="how__copy">
+            <p class="eyebrow">How it works</p>
+            <h2 class="display d-l" id="how-title">Three steps.<br><span class="grad-text">Zero uploads.</span></h2>
+            <ol class="how__steps">
+              <li class="how__step is-active" data-step="0">
+                <span class="how__num mono">01</span>
+                <div><h3 class="h3">Capture</h3><p>Upload a photo or use your webcam. Live guides check lighting, angle and expression before you take the shot.</p></div>
+              </li>
+              <li class="how__step" data-step="1">
+                <span class="how__num mono">02</span>
+                <div><h3 class="h3">Measure</h3><p>MediaPipe maps 478 points on your face — on your device. We correct for head pose and turn them into nine proportions.</p></div>
+              </li>
+              <li class="how__step" data-step="2">
+                <span class="how__num mono">03</span>
+                <div><h3 class="h3">Improve</h3><p>Strengths first, then a realistic plan for 3–4 weeks, 6 months or 1–2 years that you can tick off and track.</p></div>
+              </li>
+            </ol>
+            <div class="how__progress" aria-hidden="true"><i></i></div>
+          </div>
+
+          <div class="how__visual glass" aria-hidden="true">
+            <svg class="how__art" viewBox="0 0 400 480" fill="none">
+              <defs>
+                <linearGradient id="howGrad" x1="0" y1="0" x2="400" y2="480" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#67e8f9"/><stop offset=".5" stop-color="#818cf8"/><stop offset="1" stop-color="#e879f9"/>
+                </linearGradient>
+                <radialGradient id="howGlow" cx="50%" cy="45%" r="50%"><stop stop-color="#818cf8" stop-opacity=".35"/><stop offset="1" stop-color="#818cf8" stop-opacity="0"/></radialGradient>
+              </defs>
+              <circle cx="200" cy="215" r="190" fill="url(#howGlow)"/>
+              <g class="how-layer" data-layer="0">
+                <path d="M70 70v-28a14 14 0 0 1 14-14h28M288 28h28a14 14 0 0 1 14 14v28M330 380v28a14 14 0 0 1-14 14h-28M112 422H84a14 14 0 0 1-14-14v-28" stroke="url(#howGrad)" stroke-width="3" stroke-linecap="round"/>
+                <ellipse class="how-guide" cx="200" cy="215" rx="98" ry="132" stroke="#fff" stroke-opacity=".55" stroke-width="2" stroke-dasharray="8 9"/>
+                <g class="how-chips">
+                  <rect x="88" y="372" width="70" height="26" rx="13" fill="rgba(74,222,128,.14)" stroke="rgba(74,222,128,.5)"/><text x="123" y="389" text-anchor="middle" fill="#bbf7d0" font-size="11" font-family="Inter">Light ✓</text>
+                  <rect x="165" y="372" width="70" height="26" rx="13" fill="rgba(74,222,128,.14)" stroke="rgba(74,222,128,.5)"/><text x="200" y="389" text-anchor="middle" fill="#bbf7d0" font-size="11" font-family="Inter">Angle ✓</text>
+                  <rect x="242" y="372" width="70" height="26" rx="13" fill="rgba(74,222,128,.14)" stroke="rgba(74,222,128,.5)"/><text x="277" y="389" text-anchor="middle" fill="#bbf7d0" font-size="11" font-family="Inter">Neutral ✓</text>
+                </g>
+              </g>
+              <g class="how-layer" data-layer="1" opacity="0">
+                <path class="how-face" d="M200 92c50 0 80 36 80 92 0 44-14 80-38 104-14 14-28 24-42 26-14-2-28-12-42-26-24-24-38-60-38-104 0-56 30-92 80-92z" stroke="url(#howGrad)" stroke-width="2"/>
+                <g class="how-dots" fill="#cffafe"></g>
+                <path d="M134 196h132M150 250h100M200 120v200" stroke="url(#howGrad)" stroke-width="1.5" stroke-dasharray="5 6" opacity=".8"/>
+                <text x="290" y="200" fill="#a5f3fc" font-size="12" font-family="JetBrains Mono">+5.8°</text>
+                <text x="268" y="254" fill="#c4b5fd" font-size="12" font-family="JetBrains Mono">1.56</text>
+              </g>
+              <g class="how-layer" data-layer="2" opacity="0">
+                <rect x="82" y="96" width="236" height="290" rx="22" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.14)"/>
+                <text x="106" y="134" fill="#f5f5f7" font-size="17" font-weight="600" font-family="Inter Tight">Week 1</text>
+                <g font-family="Inter" font-size="12.5" fill="#c9cad3">
+                  <rect x="106" y="158" width="18" height="18" rx="5" fill="#67e8f9"/><path d="M110 167l3.5 3.5 6.5-7" stroke="#06060a" stroke-width="2"/><text x="136" y="172">SPF 30+ every morning</text>
+                  <rect x="106" y="196" width="18" height="18" rx="5" fill="#67e8f9"/><path d="M110 205l3.5 3.5 6.5-7" stroke="#06060a" stroke-width="2"/><text x="136" y="210">7–9 h sleep window</text>
+                  <rect x="106" y="234" width="18" height="18" rx="5" fill="none" stroke="rgba(255,255,255,.3)"/><text x="136" y="248">Haircut for an oval face</text>
+                  <rect x="106" y="272" width="18" height="18" rx="5" fill="none" stroke="rgba(255,255,255,.3)"/><text x="136" y="286">Chin tucks · 2 × 10</text>
+                </g>
+                <rect x="106" y="324" width="188" height="6" rx="3" fill="rgba(255,255,255,.1)"/>
+                <rect class="how-bar" x="106" y="324" width="94" height="6" rx="3" fill="url(#howGrad)"/>
+                <text x="106" y="356" fill="#a9abb8" font-size="12" font-family="Inter">2 of 4 done this week</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ METRICS ============================ -->
+    <section class="metrics" id="features" aria-labelledby="metrics-title">
+      <div class="metrics__pin">
+        <div class="metrics__head container container--wide">
+          <div>
+            <p class="eyebrow">What we measure</p>
+            <h2 class="display d-l" id="metrics-title">Nine proportions.<br><span class="grad-text">Every number shown.</span></h2>
+          </div>
+          <p class="lead metrics__lead">No black box. Each measured value sits next to its commonly cited ideal range — with the exact landmarks drawn on your face.</p>
+        </div>
+        <div class="metrics__viewport">
+          <div class="metrics__track" id="metrics-track"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================== SCORE DEMO =========================== -->
+    <section class="score section" aria-labelledby="score-title">
+      <div class="container container--wide score__grid">
+        <div class="score__visual glass" data-reveal="scale">
+          <span class="chip score__example">Example result</span>
+          <div class="ring score__ring">
+            <svg width="260" height="260" viewBox="0 0 260 260">
+              <defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#67e8f9"/><stop offset=".5" stop-color="#818cf8"/><stop offset="1" stop-color="#e879f9"/></linearGradient></defs>
+              <circle class="ring__track" cx="130" cy="130" r="112" stroke-width="12" fill="none"/>
+              <circle class="ring__value" id="demo-ring" cx="130" cy="130" r="112" stroke="url(#ringGrad)" stroke-width="12" stroke-linecap="round" fill="none" stroke-dasharray="703.7" stroke-dashoffset="703.7"/>
+            </svg>
+            <div class="ring__label">
+              <b class="score__num display" id="demo-score">0.0</b>
+              <span class="faint mono">/ 10</span>
+            </div>
+          </div>
+          <ul class="score__bars" id="demo-bars"></ul>
+        </div>
+        <div class="score__copy">
+          <p class="eyebrow">Your results</p>
+          <h2 class="display d-l" id="score-title">Strengths first.<br><span class="grad-text">Always.</span></h2>
+          <p class="lead">You get an overall score out of 10 and a score for every feature — but we lead with what's working. Areas to improve come next, in plain, respectful language, with what you can realistically influence.</p>
+          <ul class="score__points" data-reveal-stagger>
+            <li data-reveal><span>01</span>Measured value next to the ideal range, so nothing is made up.</li>
+            <li data-reveal><span>02</span>Landmarks drawn over your photo — tap a feature to see its lines.</li>
+            <li data-reveal><span>03</span>A photo-quality check, because lighting and angle change results.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ PRIVACY ============================ -->
+    <section class="privacy section" id="privacy" aria-labelledby="privacy-title">
+      <div class="privacy__bg" aria-hidden="true"></div>
+      <div class="container container--wide">
+        <div class="privacy__lock" aria-hidden="true">
+          <svg viewBox="0 0 120 140" fill="none"><defs><linearGradient id="lockG" x1="0" y1="0" x2="120" y2="140" gradientUnits="userSpaceOnUse"><stop stop-color="#67e8f9"/><stop offset=".5" stop-color="#818cf8"/><stop offset="1" stop-color="#e879f9"/></linearGradient></defs>
+            <path class="lock-shackle" d="M34 62V44a26 26 0 0 1 52 0v18" stroke="url(#lockG)" stroke-width="7" stroke-linecap="round"/>
+            <rect x="16" y="60" width="88" height="70" rx="18" stroke="url(#lockG)" stroke-width="7"/>
+            <circle cx="60" cy="92" r="8" fill="url(#lockG)"/><path d="M60 98v12" stroke="url(#lockG)" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2 class="display d-xl privacy__title" id="privacy-title">Your photo never<br><span class="grad-text">leaves your device.</span></h2>
+        <div class="privacy__cards" data-reveal-stagger>
+          <article class="glass card-pad" data-reveal data-spotlight>
+            <h3 class="h3">Analysed on-device</h3>
+            <p class="muted">The AI model runs inside your browser. Your image is never uploaded, stored or seen by anyone.</p>
+          </article>
+          <article class="glass card-pad" data-reveal data-spotlight>
+            <h3 class="h3">Only numbers saved</h3>
+            <p class="muted">Your account keeps scores, measurements and plan progress — not photos, not face landmarks.</p>
+          </article>
+          <article class="glass card-pad" data-reveal data-spotlight>
+            <h3 class="h3">Delete anytime</h3>
+            <p class="muted">Export or erase your history, or delete your whole account, in one click from your dashboard.</p>
+          </article>
+        </div>
+        <p class="center privacy__more"><a class="link" href="privacy.html">Read the full privacy page</a></p>
+      </div>
+    </section>
+
+    <!-- ============================ GLOW-UP ============================ -->
+    <section class="glow section" id="glow-up" aria-labelledby="glow-title">
+      <div class="container container--wide">
+        <div class="glow__head">
+          <p class="eyebrow">Glow-up plan</p>
+          <h2 class="display d-l" id="glow-title">A plan for your face.<br><span class="grad-text">On your timeline.</span></h2>
+          <p class="lead">Pick 3–4 weeks, 6 months or 1–2 years. We build a checklist around your weakest areas using safe, realistic methods — then you tick it off and track it.</p>
+        </div>
+        <div class="glow__body">
+          <div class="segmented glow__tabs" role="tablist" aria-label="Timeline">
+            <span class="segmented__thumb" aria-hidden="true"></span>
+            <button role="tab" aria-selected="true" data-tl="weeks">3–4 weeks</button>
+            <button role="tab" aria-selected="false" data-tl="months">6 months</button>
+            <button role="tab" aria-selected="false" data-tl="years">1–2 years</button>
+          </div>
+          <div class="glow__panel glass" id="glow-panel" role="tabpanel"></div>
+          <ul class="glow__nos" aria-label="What we never suggest">
+            <li>No surgery</li><li>No crash diets</li><li>No pseudoscience</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= BENTO ============================= -->
+    <section class="bento section" aria-label="More features">
+      <div class="container container--wide bento__grid" data-reveal-stagger>
+        <article class="bento__card bento__card--lookalike glass" data-reveal data-spotlight>
+          <span class="chip chip--accent">Just for fun</span>
+          <h3 class="display d-s">Who shares your proportions?</h3>
+          <p class="muted">We compare your ratios — not your identity — with a database of celebrity face measurements and show your top three.</p>
+          <div class="look-demo" aria-hidden="true">
+            <div class="look-demo__item"><i class="look-demo__ava">A</i><span>Match one</span><b class="mono">87%</b></div>
+            <div class="look-demo__item"><i class="look-demo__ava">B</i><span>Match two</span><b class="mono">83%</b></div>
+            <div class="look-demo__item"><i class="look-demo__ava">C</i><span>Match three</span><b class="mono">80%</b></div>
+          </div>
+        </article>
+        <article class="bento__card bento__card--chart glass" data-reveal data-spotlight>
+          <span class="chip">Dashboard</span>
+          <h3 class="display d-s">Watch your progress.</h3>
+          <p class="muted">Every analysis lands on a timeline, so habits show up as a trend — not a guess.</p>
+          <svg class="bento-chart" viewBox="0 0 400 160" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="chartLine" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#67e8f9"/><stop offset=".5" stop-color="#818cf8"/><stop offset="1" stop-color="#e879f9"/></linearGradient>
+              <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="160" gradientUnits="userSpaceOnUse"><stop stop-color="#818cf8" stop-opacity=".35"/><stop offset="1" stop-color="#818cf8" stop-opacity="0"/></linearGradient>
+            </defs>
+            <path d="M0 40h400M0 80h400M0 120h400" stroke="rgba(255,255,255,.06)"/>
+            <path class="bento-chart__fill" d="M8 128C60 120 90 112 130 104s70-6 110-22 70-26 100-30 44-10 52-12V160H8z" fill="url(#chartFill)"/>
+            <path class="bento-chart__line" d="M8 128C60 120 90 112 130 104s70-6 110-22 70-26 100-30 44-10 52-12" stroke="url(#chartLine)" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="392" cy="38" r="5" fill="#e879f9"/>
+          </svg>
+        </article>
+        <article class="bento__card bento__card--share glass" data-reveal data-spotlight>
+          <span class="chip">Share card</span>
+          <h3 class="display d-s">Download your results.</h3>
+          <p class="muted">A clean, shareable image of your scores. Your photo is optional — and the card is made on your device.</p>
+        </article>
+        <article class="bento__card bento__card--free glass" data-reveal data-spotlight>
+          <span class="chip chip--good">$0</span>
+          <h3 class="display d-s">Free. Actually free.</h3>
+          <p class="muted">No subscriptions, no ads, no "unlock your full report". Runs on free, open tools.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================== FAQ ============================== -->
+    <section class="faq section" id="faq" aria-labelledby="faq-title">
+      <div class="container faq__grid">
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2 class="display d-l" id="faq-title">Good<br>questions.</h2>
+        </div>
+        <div class="accordion" id="faq-list"></div>
+      </div>
+    </section>
+
+    <!-- ============================== CTA ============================== -->
+    <section class="cta section" aria-labelledby="cta-title">
+      <div class="cta__glow" aria-hidden="true"></div>
+      <div class="container center">
+        <h2 class="display d-xl" id="cta-title">See your proportions<br><span class="grad-text">in 30 seconds.</span></h2>
+        <p class="lead cta__lead">Private by design. Free forever. Respectful by default.</p>
+        <a class="btn btn--primary btn--lg" href="analyze.html" data-magnetic>Start free analysis
+          <svg class="icon icon--arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>
