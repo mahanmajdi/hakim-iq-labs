@@ -10,6 +10,7 @@
  */
 import { getSupabase, isConfigured } from './supabase.js';
 import { siteUrl } from './utils.js';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../config.js';
 
 const DEMO_USER = Object.freeze({
   id: 'local-demo',
@@ -39,6 +40,21 @@ async function client() {
   const sb = await getSupabase();
   if (!sb) throw new Error('Accounts are not configured yet (demo mode).');
   return sb;
+}
+
+let providersPromise = null;
+
+/**
+ * Which sign-in providers are switched on in the Supabase project, so the UI
+ * only offers buttons that work (e.g. Google appears once it is configured).
+ */
+export function getProviders() {
+  if (!isConfigured) return Promise.resolve({ email: false, google: false });
+  providersPromise ??= fetch(`${SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: SUPABASE_ANON_KEY } })
+    .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`settings ${r.status}`))))
+    .then((s) => ({ email: Boolean(s.external?.email), google: Boolean(s.external?.google) }))
+    .catch(() => ({ email: true, google: true })); // unknown → show both rather than hide a working option
+  return providersPromise;
 }
 
 /** Current user (from the locally stored session — no network round-trip). */

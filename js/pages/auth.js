@@ -14,6 +14,7 @@ import { $, escapeHtml } from '../core/utils.js';
 import { requireAgeGate } from '../core/age-gate.js';
 import {
   isConfigured,
+  getProviders,
   getUser,
   onAuthChange,
   signIn,
@@ -29,12 +30,14 @@ const rawNext = params.get('next') || 'analyze.html';
 const next = /^[a-z-]+\.html(\?[\w=&%-]*)?$/i.test(rawNext) ? rawNext : 'analyze.html'; // only our own pages
 const card = $('#auth-card');
 let ageBand = null;
+let providers = { email: true, google: false };
 
 const FRIENDLY = [
   [/invalid login credentials/i, 'That email and password don’t match. Try again or reset your password.'],
   [/user already registered/i, 'An account with this email already exists — try signing in.'],
   [/password should be at least/i, 'Please use a longer password (at least 8 characters).'],
   [/rate limit|too many/i, 'Too many attempts. Please wait a minute and try again.'],
+  [/not authorized|error sending|sending (confirmation|recovery|magic link) email/i, 'We couldn’t send a verification email to this address right now. Please try again later.'],
 ];
 const friendly = (err) => FRIENDLY.find(([re]) => re.test(err?.message || ''))?.[1] || err?.message || 'Something went wrong.';
 
@@ -44,7 +47,12 @@ function header(title, sub) {
     <div><h1 class="display">${title}</h1>${sub ? `<p class="muted" style="margin-top:8px">${sub}</p>` : ''}</div>`;
 }
 
-const googleBtn = (label) => `<button class="btn btn--google btn--block btn--lg" type="button" data-google>${icons.google}<span>${label}</span></button>`;
+// Only offered once Google is enabled in the Supabase project.
+const googleBtn = (label) =>
+  providers.google
+    ? `<button class="btn btn--google btn--block btn--lg" type="button" data-google>${icons.google}<span>${label}</span></button>
+       <div class="divider">or</div>`
+    : '';
 
 function passwordField(id, label, autocomplete) {
   return `
@@ -111,7 +119,6 @@ const views = {
     card.innerHTML = `
       ${header('Welcome back', 'Sign in to analyse and track your progress.')}
       ${googleBtn('Continue with Google')}
-      <div class="divider">or</div>
       <form novalidate>
         <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="email" required></div>
         ${passwordField('password', 'Password', 'current-password')}
@@ -144,7 +151,6 @@ const views = {
     card.innerHTML = `
       ${header('Create your free account', 'Save your scores, track progress and follow your glow-up plan.')}
       ${googleBtn('Sign up with Google')}
-      <div class="divider">or</div>
       <form novalidate>
         <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="email" required></div>
         ${passwordField('password', 'Password', 'new-password')}
@@ -287,6 +293,7 @@ async function main() {
 
   if (!isConfigured) return render('demo');
 
+  providers = await getProviders();
   const mode = params.get('mode');
   // Recovery links sign the user in temporarily and fire PASSWORD_RECOVERY.
   onAuthChange((event) => {

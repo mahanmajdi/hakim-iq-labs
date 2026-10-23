@@ -11,8 +11,8 @@
  * history is kept only in this browser's localStorage. Handy for
  * trying the site before you set Supabase up.
  */
-export const SUPABASE_URL = '';
-export const SUPABASE_ANON_KEY = '';
+export const SUPABASE_URL = 'https://duerbypnhntfhrovtxac.supabase.co';
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1ZXJieXBuaG50Zmhyb3Z0eGFjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI3NTgzMjYsImV4cCI6MjEwODMzNDMyNn0.OoXZLT5DciMS5YrzOBsF8AR98zmylfXTNUNUarvL010';
 
 /** Minimum age (years) to use the analysis. */
 export const MIN_AGE = 13;
