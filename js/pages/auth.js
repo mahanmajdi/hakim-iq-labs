@@ -32,14 +32,20 @@ const card = $('#auth-card');
 let ageBand = null;
 let providers = { email: true, google: false };
 
+// Matched against Supabase's error code first, then its message.
 const FRIENDLY = [
-  [/invalid login credentials/i, 'That email and password don’t match. Try again or reset your password.'],
-  [/user already registered/i, 'An account with this email already exists — try signing in.'],
-  [/password should be at least/i, 'Please use a longer password (at least 8 characters).'],
-  [/rate limit|too many/i, 'Too many attempts. Please wait a minute and try again.'],
+  [/invalid.credentials|invalid login credentials/i, 'That email and password don’t match. Try again or reset your password.'],
+  [/user_already_exists|user already registered/i, 'An account with this email already exists — try signing in.'],
+  [/weak_password|password should be at least/i, 'Please use a longer password (at least 8 characters).'],
+  // The project-wide hourly email quota — retrying sooner won't help, so say so.
+  [/over_email_send_rate_limit|email rate limit/i, 'We’ve hit our hourly limit for sending verification emails. Please try again in about an hour — your details weren’t saved, so nothing is lost.'],
+  [/over_request_rate_limit|rate limit|too many/i, 'Too many attempts from this connection. Please wait a few minutes and try again.'],
   [/not authorized|error sending|sending (confirmation|recovery|magic link) email/i, 'We couldn’t send a verification email to this address right now. Please try again later.'],
 ];
-const friendly = (err) => FRIENDLY.find(([re]) => re.test(err?.message || ''))?.[1] || err?.message || 'Something went wrong.';
+const friendly = (err) => {
+  const text = `${err?.code || ''} ${err?.message || ''}`;
+  return FRIENDLY.find(([re]) => re.test(text))?.[1] || err?.message || 'Something went wrong.';
+};
 
 function header(title, sub) {
   return `
